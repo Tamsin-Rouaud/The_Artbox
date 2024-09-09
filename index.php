@@ -1,4 +1,5 @@
 <?php require_once(__DIR__."/oeuvres.php"); ?>
+
 <!doctype html>
 <html lang="fr">
 <head>
@@ -15,8 +16,9 @@
         <div id="liste-oeuvres">
 
             <?php foreach($artWorks as $artWork): ?>
+            
                 <article class="oeuvre">
-                    <a href="<?php echo 'oeuvre-' . $artWork['id'] . '.php'; ?>">
+                    <a href="oeuvre.php?id=<?php echo $artWork['id'] ; ?>">
                     <img src="<?php echo $artWork['image']; ?>" alt="<?php echo $artWork['title']; ?>">
                     <h2><?php echo $artWork['title']; ?></h2>
                     <p class="description"><?php echo $artWork['author']; ?></p>
