@@ -1,41 +1,47 @@
+<!-- Récupère le fichier contenant les variables --> 
+<?php 
+    require_once(__DIR__."/oeuvres.php"); ?>
+
+
 <!doctype html>
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport"
-            content="width=device-width, initial-scale=1.0">
+        <!-- Permet de rendre un site web responsive -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Force IE à utiliser le mode de rendu le plus récent, mode Edge -->
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="css/style.css">
         <title>The ArtBox</title>
     </head>
     <body>
-        <?php // Inclusion des fichiers nécessaires
-        require_once(__DIR__."/oeuvres.php");
-        require_once(__DIR__."/header.php");
-            
-        /* Récupération de l'id de l'œuvre et conversion en entier.
-        Vérifie si l'ID est passé dans l'URL via $_GET['id'], sinon assigne null.
-        Si l'ID est présent, il est converti en entier avec (int) */
-        $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
 
-        // Variable initialisée à null qui contiendra l'œuvre trouvée correspondant à l'ID
-        $singlePageArtWork = null; ?>
+        <!-- Intègre le bloc fonctionnel header avec sa barre de navigation -->
+        <?php 
+        require_once(__DIR__."/header.php"); ?>
 
-        <?php // Boucle à travers le tableau d'œuvres (présumé dans $artWorks) pour chercher l'œuvre correspondant à l'ID récupéré
-            foreach ($artWorks as $artWork): 
-                // Si l'ID de l'œuvre actuelle ($artWork['id']) correspond à celui dans l'URL ($id)
-                if ($id == $artWork['id']): 
-                    // Stocke cette œuvre dans la variable $singlePageArtWork
-                    $singlePageArtWork = $artWork;
-                endif; // Fin de la condition si l'ID correspond
-            endforeach; // Fin de la boucle sur les œuvres
 
-            // Vérification si une œuvre a été trouvée (si $singlePageArtWork n'est pas null)
-            if ($singlePageArtWork == null): ?>
-                <!-- Si aucune œuvre n'est trouvée, afficher un message -->
+        <!-- Vérification du contenu de $_GET['id'] et que son contenu est un chiffre, si les conditions sont réunis, id est converti en entier et dans le cas contraire, on lui assigne NULL.-->
+        <?php $id = isset($_GET['id']) && ctype_digit($_GET['id']) ? (int)$_GET['id'] : null; ?>
+
+        <!-- Variable qui contiendra l'oeuvre trouvée correspondant à l'ID -->
+        <?php $singlePageArtWork = null; ?>
+
+        <!-- Boucle à travers le tableau d'oeuvres ($artWorks) pour créer la variable artWork qui contiendra chaque oeuvre -->
+        <?php foreach ($artWorks as $artWork): ?>
+            <!-- Vérifie si $id (présent dans l'URL) récupérée grâce à $_GET['id'] est strictement = à l'ID de la variable ($artWork['id']) -->
+            <?php if ($id === $artWork['id']): ?>
+                <!-- Stocke cette oeuvre dans la variable $singlePageArtWork -->
+                <?php $singlePageArtWork = $artWork;
+            endif;
+        endforeach; ?>
+
+
+            <!-- Vérifie si $singlePageArtWork n'est pas null, si elle l'est, elle affiche 'Oeuvre non trouvée" -->
+            <?php if ($singlePageArtWork === null): ?>
                 <p>Oeuvre non trouvée.</p>
-
-            <?php else: ?> <!-- Si une œuvre a été trouvée, affichage des informations de l'œuvre -->
+            <!-- Si $singlePageArtWork n'est pas null, affichage des informations de l'oeuvre -->
+            <?php else: ?> 
                 <main>
                     <article id="detail-oeuvre">
                         <div id="img-oeuvre">
@@ -47,9 +53,12 @@
                             <p class="description-complete"><?php echo $singlePageArtWork['description']; ?></p>
                         </div>
                     </article>
-                </main>
-            <?php require_once(__DIR__."/footer.php");
-            endif; ?>
-          
+                </main>                      
+            <?php endif; ?>
+
+
+        <!-- Intègre le bloc fonctionnel footer -->
+        <?php 
+            require_once(__DIR__."/footer.php");  ?>
     </body>
 </html>
