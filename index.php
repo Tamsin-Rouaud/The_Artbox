@@ -19,6 +19,7 @@
         require_once(__DIR__."/header.php"); ?>
         <main>
             <div id="liste-oeuvres">
+            
                 <!-- Boucle sur le tableau artWorks pour créer les variables artWork et intégré ces champs de manière dynamique -->
                 <?php foreach($artWorks as $artWork): ?>
                     <article class="oeuvre">
